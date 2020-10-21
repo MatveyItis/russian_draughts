@@ -1,0 +1,58 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.2.
+--
+-- see: https://github.com/sol/hpack
+
+name:           russian-draughts
+version:        0.0.1
+description:    Please see the README on Github at <https://github.com/MatveyItis/russian_draughts/>
+author:         Matvey Maletskov
+maintainer:     maletskovitis@mail.ru
+copyright:      2020 Matvey Maletskov
+license:        BSD3
+build-type:     Simple
+extra-source-files:
+    README.md
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_russian_draughts
+  hs-source-dirs:
+      src
+  build-depends:
+      MonadRandom
+    , base >=4.7 && <5
+    , transformers
+  default-language: Haskell2010
+
+executable russian-draughts-server
+  main-is: Main.hs
+  other-modules:
+      Paths_russian_draughts
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MonadRandom
+    , base >=4.7 && <5
+    , russian-draughts
+    , transformers
+  default-language: Haskell2010
+
+test-suite russian-draughts-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_russian_draughts
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MonadRandom
+    , base >=4.7 && <5
+    , russian-draughts
+    , transformers
+  default-language: Haskell2010
