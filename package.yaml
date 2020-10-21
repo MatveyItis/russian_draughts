@@ -1,4 +1,4 @@
-name:                russian_draughts
+name:                russian-draughts
 version:             0.0.1
 license:             BSD3
 author:              "Matvey Maletskov"
@@ -26,7 +26,7 @@ library:
   source-dirs: src
 
 executables:
-  russian_draughts-server:
+  russian-draughts-server:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -34,10 +34,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - russian_draughts
+    - russian-draughts
 
 tests:
-  russian_draughts-test:
+  russian-draughts-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -45,4 +45,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - russian_draughts
+    - russian-draughts
