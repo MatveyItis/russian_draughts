@@ -18,9 +18,15 @@ extra-source-files:
 description:         Please see the README on Github at <https://github.com/MatveyItis/russian_draughts/>
 
 dependencies:
-- base >= 4.7 && < 5
-- MonadRandom
-- transformers
+  - base >= 4.7 && < 5
+  - containers
+  - MonadRandom
+  - transformers
+  - aeson
+  - servant
+  - servant-server
+  - stm
+  - wai
 
 library:
   source-dirs: src

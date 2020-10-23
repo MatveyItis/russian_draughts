@@ -24,8 +24,14 @@ library
       src
   build-depends:
       MonadRandom
+    , aeson
     , base >=4.7 && <5
+    , containers
+    , servant
+    , servant-server
+    , stm
     , transformers
+    , wai
   default-language: Haskell2010
 
 executable russian-draughts-server
@@ -37,9 +43,15 @@ executable russian-draughts-server
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       MonadRandom
+    , aeson
     , base >=4.7 && <5
+    , containers
     , russian-draughts
+    , servant
+    , servant-server
+    , stm
     , transformers
+    , wai
   default-language: Haskell2010
 
 test-suite russian-draughts-test
@@ -52,7 +64,13 @@ test-suite russian-draughts-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       MonadRandom
+    , aeson
     , base >=4.7 && <5
+    , containers
     , russian-draughts
+    , servant
+    , servant-server
+    , stm
     , transformers
+    , wai
   default-language: Haskell2010
