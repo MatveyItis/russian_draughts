@@ -17,7 +17,12 @@ extra-source-files:
 
 library
   exposed-modules:
+      Api
+      Game
       Lib
+      Types
+      Types.Board
+      Types.Game
   other-modules:
       Paths_russian_draughts
   hs-source-dirs:
@@ -27,7 +32,9 @@ library
     , aeson
     , base >=4.7 && <5
     , containers
+    , http-client
     , servant
+    , servant-client
     , servant-server
     , stm
     , transformers
@@ -46,8 +53,10 @@ executable russian-draughts-server
     , aeson
     , base >=4.7 && <5
     , containers
+    , http-client
     , russian-draughts
     , servant
+    , servant-client
     , servant-server
     , stm
     , transformers
@@ -67,8 +76,10 @@ test-suite russian-draughts-test
     , aeson
     , base >=4.7 && <5
     , containers
+    , http-client
     , russian-draughts
     , servant
+    , servant-client
     , servant-server
     , stm
     , transformers
