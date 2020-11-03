@@ -37,6 +37,5 @@ checkGuess mans gs = case askedCombination gs of
 initialState :: GameState
 initialState = GameState
   { turn = 1
-  , chooseChecker = Nothing
-  , board = [[mkChecker (1, 1, "W")]]
+  , board = [[mkChecker (1, 1, W)]]
   }

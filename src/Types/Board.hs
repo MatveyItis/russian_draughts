@@ -2,26 +2,28 @@
 
 {-# LANGUAGE DeriveGeneric #-}
 
-module Types.Board
- (
-  Checker,
-  mkChecker,
-  Board
- ) where
+module Types.Board where
 
 import Data.Aeson
 import GHC.Generics
 
+data Role =
+  W | B | KW | KB
+  deriving (Eq,Show,Read,Generic)
+
+instance FromJSON Role
+instance ToJSON Role
+
 data Checker = Checker
   { x :: Int,
     y :: Int,
-    role :: [Char]
+    role :: Role
   }
   deriving (Eq,Show,Read,Generic)
 ----- Вариант:
 -- data Checker = W | B | KW | KB
 
-mkChecker :: (Int, Int, [Char]) -> (Maybe Checker)
+mkChecker :: (Int, Int, Role) -> (Maybe Checker)
 mkChecker (x, y, r)
   | 1 <= x && x <= 8 && 1 <= y && y <= 8 = Just (Checker {x = x, y = y, role = r})
 

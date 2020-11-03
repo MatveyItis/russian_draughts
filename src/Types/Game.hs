@@ -9,12 +9,9 @@ import GHC.Generics
 import Types.Board
 
 data Move =
-  Random
-  -- ^ рандомный ход
-  | Choose (Int, Int)
-  -- ^ выбрать шашку, которой игрок хочет сходить
-  | Make (Int, Int)
-  -- ^ сделать ход выбранной на предыдущем шаге шашкой
+  Make (Int, Int, Int, Int)
+  -- ^ сделать ход выбранной шашкой - первые (Int, Int)
+  -- в нужную позицию - вторые (Int, Int)
   deriving (Eq,Show,Read,Generic)
 
 instance FromJSON Move
@@ -23,8 +20,6 @@ instance ToJSON Move
 data GameState = GameState
   { turn :: Int
     -- ^ очередь хода, 1 - белые, 0 - черные
-    , chooseChecker :: Maybe Checker
-    -- ^ выбранная игроком шашка
     , board :: [[Maybe Checker]]
     -- ^ доска с расположением всех шашек
   } deriving (Eq,Show,Read,Generic)

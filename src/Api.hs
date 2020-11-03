@@ -27,7 +27,7 @@ import Servant
 type GameMonad g = ReaderT (TMVar GameState) (RandT g Handler)
 
 type GameApi = "field" :> Get '[JSON] GameState
-  :<|> "field" :> "board" :> Get '[JSON] [(Checker, Int)]
+  :<|> "field" :> "board" :> Get '[JSON] [[Checker]]
   :<|> "field" :> ReqBody '[JSON] Move :> Post '[JSON] GameState
 
 fieldGet :: RandomGen g => GameMonad g GameState
