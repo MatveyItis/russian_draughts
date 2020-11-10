@@ -24,31 +24,48 @@ import Servant.API
 import Servant.Client
 import Servant
 
-type GameMonad g = ReaderT (TMVar GameState) (RandT g Handler)
+type GameMonad = ReaderT (TMVar GameState) Handler
 
 type GameApi = "field" :> Get '[JSON] GameState
-  :<|> "field" :> "board" :> Get '[JSON] [[Checker]]
+  :<|> "field" :> "board" :> Get '[JSON] Board
   :<|> "field" :> ReqBody '[JSON] Move :> Post '[JSON] GameState
 
-fieldGet :: RandomGen g => GameMonad g GameState
+fieldGet :: GameMonad GameState
 fieldGet = do
   var <- ask
   state <- liftIO $ atomically $ readTMVar var
   pure state
 
+fieldBoard :: GameMonad Board
+fieldBoard = do
+  var <- ask
+  state <- liftIO $ atomically $ readTMVar var
+  let brd = board state
+  pure brd
+
+fieldPost :: Move -> GameMonad GameState
+fieldPost move = do
+  var <- ask
+  liftIO $ atomically $ do
+    state <- takeTMVar var
+    let state' = case move of
+          Make m -> checkMake m
+    putTMVar var state'
+    pure state'
+
 gameServer :: TMVar GameState -> Server GameApi
 gameServer var = hoistServer gameApi gameToHandler $
-                 fieldGet
-  where gameToHandler :: GameMonad StdGen a -> Handler a
-        gameToHandler act = do
-          g <- liftIO getStdGen
-          evalRandT (runReaderT act var) g
+                 fieldGet :<|> fieldBoard :<|> fieldPost
+  where gameToHandler :: GameMonad a -> Handler a
+        gameToHandler act = runReaderT act var
 
 gameApi :: Proxy GameApi
 gameApi = Proxy
 
 getField :: ClientM GameState
-getField = client gameApi
+getBoard :: ClientM Board
+postMove :: Move -> ClientM GameState
+getField :<|> getBoard :<|> postMove = client gameApi
 
 runClient :: BaseUrl -> ClientM a -> IO (Either ClientError a)
 runClient baseUrl actions = do

@@ -5,8 +5,11 @@ import Types
 import Game
 import Api
 
+import Control.Concurrent.STM
 import Servant (serve)
 import Network.Wai (Application)
 
-app :: Application
-app = serve gameApi gameServer
+mkApp :: IO Application
+mkApp = do
+  var <- atomically $ newTMVar initialState
+  pure $ serve gameApi $ gameServer var
