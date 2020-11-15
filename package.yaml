@@ -36,13 +36,25 @@ library:
 executables:
   russian-draughts-server:
     main:                Main.hs
-    source-dirs:         app
+    source-dirs:         app/server
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - russian-draughts
+      - russian-draughts
+      - warp
+      - wai-extra
+      - optparse-generic
+  russian-draughts-client:
+    main:                Main.hs
+    source-dirs:         app/client
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - russian-draughts
 
 tests:
   russian-draughts-test:

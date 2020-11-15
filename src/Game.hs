@@ -17,7 +17,7 @@ applyMove gs NoGuess = pure $ checkGuess Nothing gs
 applyMove gs (Guess ans) = pure $ checkGuess (Just ans) gs-}
 
 -- | Чистая функция для проверки комбинации
-checkMake :: Move -- ^ Предполагаемый ход
+checkMake :: [Dot] -- ^ Предполагаемый ход
           -> GameState -- ^ Старое состояние игры
           -> GameState -- ^ Новое состояние игры
 checkMake mans gs = gs
@@ -37,7 +37,7 @@ checkMake mans gs = gs
 initialState :: GameState
 initialState = GameState
   { turn = 1
-  , board = [[mkChecker (1, 1, W)]]
+  , checkers = [[mkChecker (1, 1, W)]]
   }
 
 {-

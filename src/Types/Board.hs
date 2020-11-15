@@ -33,6 +33,7 @@ mkChecker (x, y, r)
 
 instance FromJSON Checker
 instance ToJSON Checker
+{-
 
 -- Доска, состоит из массива массивов 8х8
 data Board = Board
@@ -44,4 +45,4 @@ mkBoard checkers
   |= Just (Board checkers)-}
 
 instance FromJSON Board
-instance ToJSON Board
+instance ToJSON Board-}

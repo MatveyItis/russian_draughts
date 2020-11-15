@@ -28,7 +28,7 @@ instance ToJSON Move
 data GameState = GameState
   { turn :: Int
     -- ^ очередь хода, 1 - белые, 0 - черные
-    , board :: Board
+    , checkers :: [[Maybe Checker]]
     -- ^ доска с расположением всех шашек
   } deriving (Eq,Show,Read,Generic)
 

@@ -41,12 +41,12 @@ library
     , wai
   default-language: Haskell2010
 
-executable russian-draughts-server
+executable russian-draughts-client
   main-is: Main.hs
   other-modules:
       Paths_russian_draughts
   hs-source-dirs:
-      app
+      app/client
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       MonadRandom
@@ -61,6 +61,31 @@ executable russian-draughts-server
     , stm
     , transformers
     , wai
+  default-language: Haskell2010
+
+executable russian-draughts-server
+  main-is: Main.hs
+  other-modules:
+      Paths_russian_draughts
+  hs-source-dirs:
+      app/server
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MonadRandom
+    , aeson
+    , base >=4.7 && <5
+    , containers
+    , http-client
+    , optparse-generic
+    , russian-draughts
+    , servant
+    , servant-client
+    , servant-server
+    , stm
+    , transformers
+    , wai
+    , wai-extra
+    , warp
   default-language: Haskell2010
 
 test-suite russian-draughts-test

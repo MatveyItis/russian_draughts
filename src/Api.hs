@@ -27,7 +27,7 @@ import Servant
 type GameMonad = ReaderT (TMVar GameState) Handler
 
 type GameApi = "field" :> Get '[JSON] GameState
-  :<|> "field" :> "board" :> Get '[JSON] Board
+  :<|> "field" :> "checkers" :> Get '[JSON] [[Maybe Checker]]
   :<|> "field" :> ReqBody '[JSON] Move :> Post '[JSON] GameState
 
 fieldGet :: GameMonad GameState
@@ -36,11 +36,11 @@ fieldGet = do
   state <- liftIO $ atomically $ readTMVar var
   pure state
 
-fieldBoard :: GameMonad Board
-fieldBoard = do
+fieldCheckers :: GameMonad [[Maybe Checker]]
+fieldCheckers = do
   var <- ask
   state <- liftIO $ atomically $ readTMVar var
-  let brd = board state
+  let brd = checkers state
   pure brd
 
 fieldPost :: Move -> GameMonad GameState
@@ -49,13 +49,13 @@ fieldPost move = do
   liftIO $ atomically $ do
     state <- takeTMVar var
     let state' = case move of
-          Make m -> checkMake m
+          Make dots -> checkMake dots state
     putTMVar var state'
     pure state'
 
 gameServer :: TMVar GameState -> Server GameApi
 gameServer var = hoistServer gameApi gameToHandler $
-                 fieldGet :<|> fieldBoard :<|> fieldPost
+                 fieldGet :<|> fieldCheckers :<|> fieldPost
   where gameToHandler :: GameMonad a -> Handler a
         gameToHandler act = runReaderT act var
 
@@ -63,9 +63,9 @@ gameApi :: Proxy GameApi
 gameApi = Proxy
 
 getField :: ClientM GameState
-getBoard :: ClientM Board
+getCheckers :: ClientM [[Maybe Checker]]
 postMove :: Move -> ClientM GameState
-getField :<|> getBoard :<|> postMove = client gameApi
+getField :<|> getCheckers :<|> postMove = client gameApi
 
 runClient :: BaseUrl -> ClientM a -> IO (Either ClientError a)
 runClient baseUrl actions = do
