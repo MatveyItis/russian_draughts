@@ -37,7 +37,14 @@ checkMake mans gs = gs
 initialState :: GameState
 initialState = GameState
   { turn = 1
-  , checkers = [[mkChecker (1, 1, W)]]
+  , checkers = [[mkChecker (1, 1, W), Nothing, mkChecker (1, 3, W), Nothing, mkChecker (1, 5, W), Nothing, mkChecker (1, 7, W), Nothing],
+                [Nothing, mkChecker (2, 2, W), Nothing, mkChecker (2, 4, W), Nothing, mkChecker (2, 6, W), Nothing, mkChecker (2, 8, W)],
+                [mkChecker (3, 1, W), Nothing, mkChecker (3, 3, W), Nothing, mkChecker (3, 5, W), Nothing, mkChecker (3, 7, W), Nothing],
+                [Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing],
+                [Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing],
+                [Nothing, mkChecker (6, 2, B), Nothing, mkChecker (6, 4, B), Nothing, mkChecker (6, 6, B), Nothing, mkChecker (6, 8, B)],
+                [mkChecker (7, 1, B), Nothing, mkChecker (7, 3, B), Nothing, mkChecker (7, 5, B), Nothing, mkChecker (7, 7, B), Nothing],
+                [Nothing, mkChecker (8, 2, B), Nothing, mkChecker (8, 4, B), Nothing, mkChecker (8, 6, B), Nothing, mkChecker (8, 8, B)]]
   }
 
 {-
