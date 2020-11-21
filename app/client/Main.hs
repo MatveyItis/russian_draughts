@@ -24,6 +24,8 @@ gameClient = do
   ans <- liftIO getLine
   case ans of
     "quit" -> pure ()
+    "1" -> liftIO $ putStrLn "1"
+    Just x y ->
 {-
     "no" -> postMove NoGuess >> gameClient
     _ -> case readMaybe ans of

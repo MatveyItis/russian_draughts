@@ -5,16 +5,29 @@ module Game where
 import Types.Board
 import Types.Game
 
-{--- | Применение хода к состоянию игры
 applyMove :: GameState -- ^ старое состояние игры
           -> Move      -- ^ ход
           -> GameState -- ^ новое состояние игры
-applyMove gs = do
-  comb <- randomCombination
-  applyMove gs $ Ask comb
-applyMove gs (Ask c) = pure $ askCombination c gs
-applyMove gs NoGuess = pure $ checkGuess Nothing gs
-applyMove gs (Guess ans) = pure $ checkGuess (Just ans) gs-}
+applyMove gs (Make dots) = pure $ makeMove dots gs
+
+makeMove :: [Dot]
+         -> GameState
+         -> GameState
+makeMove dots gs = do
+  let checkers = checkers gs
+  let dot1 = dots[0]
+  let dot2 = dots[1]
+  let x1 = (x dot1) - 1
+  let y1 = (y dot1) - 1
+  let x2 = (x dot2) - 1
+  let y2 = (y dot2) - 1
+  let optCheckerX = checkers[x1]
+  let optChecker = optCheckerX[y1]
+  if isNothing optChecker then
+    checkers[x1][y1] = Nothing
+    checkers[x2][y2] = optChecker
+    gs = gs {checkers = checkers, turn = 0}
+  else gs
 
 -- | Чистая функция для проверки комбинации
 checkMake :: [Dot] -- ^ Предполагаемый ход
@@ -37,14 +50,14 @@ checkMake mans gs = gs
 initialState :: GameState
 initialState = GameState
   { turn = 1
-  , checkers = [[mkChecker (1, 1, W), Nothing, mkChecker (1, 3, W), Nothing, mkChecker (1, 5, W), Nothing, mkChecker (1, 7, W), Nothing],
-                [Nothing, mkChecker (2, 2, W), Nothing, mkChecker (2, 4, W), Nothing, mkChecker (2, 6, W), Nothing, mkChecker (2, 8, W)],
-                [mkChecker (3, 1, W), Nothing, mkChecker (3, 3, W), Nothing, mkChecker (3, 5, W), Nothing, mkChecker (3, 7, W), Nothing],
+  , checkers = [[mkChecker (W), Nothing, mkChecker (W), Nothing, mkChecker (W), Nothing, mkChecker (W), Nothing],
+                [Nothing, mkChecker (W), Nothing, mkChecker (W), Nothing, mkChecker (W), Nothing, mkChecker (W)],
+                [mkChecker (W), Nothing, mkChecker (W), Nothing, mkChecker (W), Nothing, mkChecker (W), Nothing],
                 [Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing],
                 [Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing,Nothing],
-                [Nothing, mkChecker (6, 2, B), Nothing, mkChecker (6, 4, B), Nothing, mkChecker (6, 6, B), Nothing, mkChecker (6, 8, B)],
-                [mkChecker (7, 1, B), Nothing, mkChecker (7, 3, B), Nothing, mkChecker (7, 5, B), Nothing, mkChecker (7, 7, B), Nothing],
-                [Nothing, mkChecker (8, 2, B), Nothing, mkChecker (8, 4, B), Nothing, mkChecker (8, 6, B), Nothing, mkChecker (8, 8, B)]]
+                [Nothing, mkChecker (B), Nothing, mkChecker (B), Nothing, mkChecker (B), Nothing, mkChecker (B)],
+                [mkChecker (B), Nothing, mkChecker (B), Nothing, mkChecker (B), Nothing, mkChecker (B), Nothing],
+                [Nothing, mkChecker (B), Nothing, mkChecker (B), Nothing, mkChecker (B), Nothing, mkChecker (B)]]
   }
 
 {-
