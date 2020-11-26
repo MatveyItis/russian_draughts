@@ -5,15 +5,15 @@ module Game where
 import Types.Board
 import Types.Game
 
-applyMove :: GameState -- ^ старое состояние игры
+{-applyMove :: GameState -- ^ старое состояние игры
           -> Move      -- ^ ход
           -> GameState -- ^ новое состояние игры
-applyMove gs (Make dots) = pure $ makeMove dots gs
+applyMove gs (Make dots) = pure $ makeMove dots gs-}
 
 makeMove :: [Dot]
          -> GameState
          -> GameState
-makeMove dots gs = do
+makeMove dots gs = gs{-do
   let checkers = checkers gs
   let dot1 = dots[0]
   let dot2 = dots[1]
@@ -28,7 +28,7 @@ makeMove dots gs = do
     checkers[x2][y2] = optChecker
     gs = gs {checkers = checkers, turn = 0}
   else gs
-
+-}
 -- | Чистая функция для проверки комбинации
 checkMake :: [Dot] -- ^ Предполагаемый ход
           -> GameState -- ^ Старое состояние игры
